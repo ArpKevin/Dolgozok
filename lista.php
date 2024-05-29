@@ -14,8 +14,20 @@ $kimenet = "<table>
                     <th>Mobil</th>
                     <th>Email</th>
                     <th>Művelet</th>
-                </tr>
-            </table>";
+                </tr>";
+
+while($sor = mysqli_fetch_assoc($eredmeny)){
+    $kimenet .= "
+        <tr>
+            <td>{$sor['nev']}</td>
+            <td>{$sor['mobil']}</td>
+            <td>{$sor['email']}</td>
+            <td><a href=\"torles.php?id={$sor['id']}\"></a>Törlés</td>
+            <td><a href=\"modositas.php?id={$sor['id']}\"></a>Módosítás</td>
+            </tr>
+    ";
+}
+$kimenet .= "</table>";
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +46,7 @@ $kimenet = "<table>
 
         <!-- php kimenet -->
         <?php print $kimenet; ?>
+
     </div>
 </body>
 </html>
