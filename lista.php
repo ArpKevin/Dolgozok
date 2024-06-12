@@ -1,31 +1,31 @@
 <?php
 require("kapcsolat.php");
-$kifejezes = isset($_POST['kifejezes']) ? mysqli_real_escape_string(dbconn, $_POST['kifejezes']) : "";
-$sql = "SELECT * from dolgozok WHERE (
-    nev LIKE '%{$kifejezes}%'
-    OR mobil LIKE '%{$kifejezes}%'
-    OR email LIKE '%{$kifejezes}%'
-)";
 
+$kifejezes = isset($_POST['kifejezes']) ? mysqli_real_escape_string($dbconn, $_POST['kifejezes']) : "";
+$sql = "SELECT * 
+        FROM dolgozok
+        WHERE (
+            nev LIKE '%{$kifejezes}%'
+            OR mobil LIKE '%{$kifejezes}%'
+            OR email LIKE '%{$kifejezes}%'
+        )";
 $eredmeny = mysqli_query($dbconn, $sql);
+//var_dump($eredmeny);
 $kimenet = "<table>
                 <tr>
                     <th>Név</th>
                     <th>Mobil</th>
-                    <th>Email</th>
+                    <th>E-mail</th>
                     <th>Művelet</th>
                 </tr>";
-
-while($sor = mysqli_fetch_assoc($eredmeny)){
-    $kimenet .= "
-        <tr>
-            <td>{$sor['nev']}</td>
-            <td>{$sor['mobil']}</td>
-            <td>{$sor['email']}</td>
-            <td><a href=\"torles.php?id={$sor['id']}\"></a>Törlés</td>
-            <td><a href=\"modositas.php?id={$sor['id']}\"></a>Módosítás</td>
-            </tr>
-    ";
+while ($sor = mysqli_fetch_assoc($eredmeny)) {
+   $kimenet .= "<tr>
+   <td>{$sor['nev']}</td>
+   <td>{$sor['mobil']}</td>
+   <td>{$sor['email']}</td>
+   <td><a href=\"torles.php?id={$sor['id']}\">Törlés</a>
+   | <a href=\"modositas.php?id={$sor['id']}\">Módosítás</a></td>
+</tr>";
 }
 $kimenet .= "</table>";
 ?><!DOCTYPE html>
@@ -38,14 +38,16 @@ $kimenet .= "</table>";
 </head>
 <body>
     <div class="container">
-        <h1>Dolgozók</h1>
-        <form action="" method="post">
-            <input type="search" name="kifejezes" id="kifejezes">
-        </form>
-        <p><a href="felvitel.php">Új dolgozó felvitele</a></p>
+<h1>Dolgozók</h1>
+<form action="" method="post">
+    <input type="search" name="kifejezes" id="kifejezes">
+</form>
+<p><a href="felvitel.php">Új dolgozó felvitele</a></p>
 
-        <!-- php kimenet -->
-        <?php print $kimenet; ?>
+<!--Ide kerül a PHP kimenet-->
+<?php print $kimenet;?>
+
+
 
     </div>
 </body>
